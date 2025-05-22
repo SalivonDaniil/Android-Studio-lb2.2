@@ -71,15 +71,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// Model View ViewModel
-
 @Entity(tableName = "shopping_items")
 data class ShoppingItem(
     val name: String,
     val isBought: Boolean = false,
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 )
-// ORM
+
 @Dao
 interface ShoppingDao {
     @Query("SELECT * FROM shopping_items ORDER BY id DESC")
@@ -165,7 +163,6 @@ fun ShoppingItemCard(
             .padding(8.dp)
             .background(
                 Color.LightGray,
-//                MaterialTheme.colorScheme.surfaceDim,
                 MaterialTheme.shapes.large
             )
             .clickable { onToggleBought() }
@@ -216,33 +213,6 @@ fun AddItemButton(addItem: (String) -> Unit = {}) {
     }
 }
 
-//interface ShoppingApi {
-//    @GET("items")
-//    suspend fun getItems(): List<ShoppingItem>
-//
-//    @POST("items")
-//    suspend fun addItem(@Body item: ShoppingItem)
-//
-//    @PUT("items/{id}")
-//    suspend fun updateItem(@Path("id") id: Int, @Body item: ShoppingItem)
-//
-//    @DELETE("items")
-//    suspend fun clearItems()
-//}
-//
-//object RetrofitInstance {
-//    private const val BASE_URL = "http://10.0.2.2:8080/"
-//
-//    val api: ShoppingApi by lazy {
-//        Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//            .create(ShoppingApi::class.java)
-//    }
-//}
-
-
 @Composable
 fun ShoppingListScreen(viewModel: ShoppingListViewModel = viewModel(
     factory = ShoppingListViewModelFactory(LocalContext.current
@@ -269,14 +239,3 @@ fun ShoppingListScreenPreview() {
     ShoppingListScreen()
 }
 
-
-//@Preview(showBackground = true)
-@Composable
-fun ShoppingItemCardPreview() {
-    var toggleState by remember { mutableStateOf(false) }
-    ShoppingItemCard(
-        ShoppingItem("Молоко", isBought = toggleState)
-    ) {
-        toggleState = !toggleState
-    }
-}
